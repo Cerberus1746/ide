@@ -5,6 +5,9 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 
+// For Monaco
+import monaco from 'rollup-plugin-monaco-editor';
+
 const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
@@ -32,9 +35,9 @@ export default {
   input: 'src/main.js',
   output: {
     sourcemap: true,
-    format: 'iife',
+    format: 'esm',
     name: 'app',
-    file: 'public/build/bundle.js'
+    dir: 'public/build/'
   },
   plugins: [
     svelte({
@@ -46,6 +49,10 @@ export default {
     // we'll extract any component CSS out into
     // a separate file - better for performance
     css({ output: 'bundle.css' }),
+
+    monaco({
+      languages: ['json'],
+    }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
