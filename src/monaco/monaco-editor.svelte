@@ -2,60 +2,55 @@
   let monaco_promise;
   let _monaco;
 
-  monaco_promise = import('./monaco.js');
-  monaco_promise.then(mod => {
+  monaco_promise = import("./monaco.js");
+  monaco_promise.then((mod) => {
     _monaco = mod.default;
-  })
-</script>
-
-<script>
-  import { onMount } from 'svelte';
-
-  let monaco;
-  let container;
-  let editor;
-  let destroyed;
-
-  onMount(() => {
-		if (_monaco) {
-      monaco = _monaco;
-      editor = monaco.editor.create(
-        container
-      )
-			// createEditor(mode || 'svelte').then(() => {
-			// 	if (editor) editor.setValue(code || '');
-      // });
-		} else {
-			monaco_promise.then(async mod => {
-        console.log(container);
-        monaco = mod.default;
-        editor = monaco.editor.create(
-          container,
-          {
-            value: [
-              'from banana import *',
-              '',
-              'class Monkey:',
-              '	# Bananas the monkey can eat.',
-              '	capacity = 10',
-              '	def eat(self, N):',
-              '		\'\'\'Make the monkey eat N bananas!\'\'\'',
-              '		capacity = capacity - N*banana.size',
-              '',
-              '	def feeding_frenzy(self):',
-              '		eat(9.25)',
-              '		return "Yum yum"',
-            ].join('\n'),
-            language: 'python'
-          }
-        )
-			});
-		}
-		return () => {
-			destroyed = true;
-		}
   });
 </script>
 
-<div class="monaco-container" bind:this={container} style="height: 500px; text-align: left">
-</div>
+<script>
+  import { afterUpdate } from "svelte";
+
+  let monaco;
+  let container;
+  let created = false;
+
+  const monaco_options = {
+    value: `\
+?start: value
+?value: object
+        | array
+        | string
+        | SIGNED_NUMBER      -> number
+        | "true"             -> true
+        | "false"            -> false
+        | "null"             -> null
+array  : "[" [value ("," value)*] "]"
+object : "{" [pair ("," pair)*] "}"
+pair   : string ":" value
+string : ESCAPED_STRING
+%import common.ESCAPED_STRING
+%import common.SIGNED_NUMBER
+%import common.WS
+%ignore WS`,
+    language: "lark",
+  };
+
+  afterUpdate(() => {
+    if (!created) {
+      monaco_promise.then(async (mod) => {
+        if (container) {
+          monaco = mod.default;
+          monaco.editor.create(container, monaco_options);
+          created = true;
+        }
+      });
+    }
+  });
+</script>
+
+<div
+  class="monaco-container"
+  bind:this={container}
+  style="height: 500px; text-align: left"
+/>

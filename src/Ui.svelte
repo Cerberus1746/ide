@@ -12,7 +12,7 @@
 </h1>
 
 <div id="app">
-  <Monaco />
+
 </div>
 
 <main>
@@ -27,15 +27,7 @@
         </Input>
       </FormGroup>
     </Col>
-    <FormGroup>
-      <Label for="grammar">Grammar</Label>
-      <Input
-        type="textarea"
-        name="grammar"
-        id="grammar"
-        placeholder="Lark Grammar..."
-      />
-    </FormGroup>
+    <Monaco />
     <FormGroup>
       <Label for="input">Input:</Label>
       <Input
