@@ -6,11 +6,11 @@ import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
 import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js';
 // import 'monaco-editor/esm/vs/editor/contrib/caretOperations/caretOperations.js';
 // import 'monaco-editor/esm/vs/editor/contrib/caretOperations/transpose.js';
-import 'monaco-editor/esm/vs/editor/contrib/clipboard/clipboard.js';
+// import 'monaco-editor/esm/vs/editor/contrib/clipboard/clipboard.js';
 // import 'monaco-editor/esm/vs/editor/contrib/codelens/codelensController.js';
 // import 'monaco-editor/esm/vs/editor/contrib/colorPicker/colorDetector.js';
 // import 'monaco-editor/esm/vs/editor/contrib/comment/comment.js';
-import 'monaco-editor/esm/vs/editor/contrib/contextmenu/contextmenu.js';
+// import 'monaco-editor/esm/vs/editor/contrib/contextmenu/contextmenu.js';
 // import 'monaco-editor/esm/vs/editor/contrib/cursorUndo/cursorUndo.js';
 // import 'monaco-editor/esm/vs/editor/contrib/dnd/dnd.js';
 import 'monaco-editor/esm/vs/editor/contrib/find/findController.js';
@@ -29,8 +29,8 @@ import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor.js';
 // import 'monaco-editor/esm/vs/editor/contrib/referenceSearch/referenceSearch.js';
 // import 'monaco-editor/esm/vs/editor/contrib/rename/rename.js';
 import 'monaco-editor/esm/vs/editor/contrib/smartSelect/smartSelect.js';
-import 'monaco-editor/esm/vs/editor/contrib/snippet/snippetController2.js';
-import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js';
+// import 'monaco-editor/esm/vs/editor/contrib/snippet/snippetController2.js';
+// import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js';
 // import 'monaco-editor/esm/vs/editor/contrib/toggleTabFocusMode/toggleTabFocusMode.js';
 // import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter.js';
 // import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
@@ -93,21 +93,21 @@ import './lark/lark.contribution.js';
 
 
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
-		// if (label === 'json') {
-		// 	return './json.worker.bundle.js';
-		// }
-		// if (label === 'css') {
-		// 	return './css.worker.bundle.js';
-		// }
-		// if (label === 'html') {
-		// 	return './html.worker.bundle.js';
-		// }
-		// if (label === 'typescript' || label === 'javascript') {
-		// 	return './ts.worker.bundle.js';
-		// }
-		return './editor.worker.bundle.js';
-	}
+  getWorkerUrl: function (moduleId, label) {
+    // if (label === 'json') {
+    // 	return './json.worker.bundle.js';
+    // }
+    // if (label === 'css') {
+    // 	return './css.worker.bundle.js';
+    // }
+    // if (label === 'html') {
+    // 	return './html.worker.bundle.js';
+    // }
+    // if (label === 'typescript' || label === 'javascript') {
+    // 	return './ts.worker.bundle.js';
+    // }
+    return '/build/monaco-editor/esm/vs/editor/editor.worker.js';
+  }
 }
 
 export default monaco;

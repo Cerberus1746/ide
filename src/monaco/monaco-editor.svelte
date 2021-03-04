@@ -1,34 +1,35 @@
 <script context="module">
   let monaco_promise;
-  let _monaco;
 
   monaco_promise = import("./monaco.js");
-  monaco_promise.then((mod) => {
-    _monaco = mod.default;
-  });
+
 </script>
 
 <script>
   import { afterUpdate } from "svelte";
+  import { editContents } from "../storages";
+  export let monacoClass;
 
   let monaco;
   let container;
-  let created = false;
+  let editor = false;
 
   const monaco_options = {
     value: `\
 ?start: value
 ?value: object
-        | array
-        | string
-        | SIGNED_NUMBER      -> number
-        | "true"             -> true
-        | "false"            -> false
-        | "null"             -> null
+      | array
+      | string
+      | SIGNED_NUMBER      -> number
+      | "true"             -> true
+      | "false"            -> false
+      | "null"             -> null
+
 array  : "[" [value ("," value)*] "]"
 object : "{" [pair ("," pair)*] "}"
 pair   : string ":" value
 string : ESCAPED_STRING
+
 %import common.ESCAPED_STRING
 %import common.SIGNED_NUMBER
 %import common.WS
@@ -37,12 +38,17 @@ string : ESCAPED_STRING
   };
 
   afterUpdate(() => {
-    if (!created) {
+    if (!editor) {
       monaco_promise.then(async (mod) => {
         if (container) {
           monaco = mod.default;
-          monaco.editor.create(container, monaco_options);
-          created = true;
+          editor = monaco.editor.create(container, monaco_options);
+          editor.getModel().onDidChangeContent((event) => {
+            console.log(editor.getValue());
+            editContents.parserEditor.update(() => {
+              editor.getValue();
+            });
+          });
         }
       });
     }
@@ -50,7 +56,7 @@ string : ESCAPED_STRING
 </script>
 
 <div
-  class="monaco-container"
+  class="monaco-container {monacoClass}"
   bind:this={container}
   style="height: 500px; text-align: left"
 />

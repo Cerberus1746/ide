@@ -1,14 +1,3 @@
-<svelte:head>
-  <script>
-    window.languagePluginUrl = "https://cdn.jsdelivr.net/pyodide/v0.16.1/full/";
-  </script>
-
-  <script
-    src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"
-    on:load={start}></script>
-</svelte:head>
-
-
 <script>
   import Ui from "./Ui.svelte";
   import Main from "./load_python.js";
@@ -23,10 +12,32 @@
     currLoadingConsole = value;
   });
 
+  const oldLog = window.console.log;
+  window.console.log = (...args) => {
+    main.addToLoading(args[0]);
+  };
+
   function start() {
     initializing = main.init({ app: "app" }, "import app.app; app.app.start()");
   }
 </script>
+
+<svelte:head>
+  <script>
+    window.languagePluginUrl = "https://cdn.jsdelivr.net/pyodide/v0.16.1/full/";
+  </script>
+
+  <script
+    src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"
+    on:load={start}></script>
+
+  <style>
+    html,
+    body {
+      overflow-x: hidden;
+    }
+  </style>
+</svelte:head>
 
 {#await initializing}
   <p>...waiting</p>

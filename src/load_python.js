@@ -11,6 +11,6 @@ export default class Main {
   }
 
   addToLoading(message) {
-    loadingConsole.update(oldMessage => message + "\n" + oldMessage);
+    loadingConsole.update(oldMessage => oldMessage + "\n" + message);
   }
 }
